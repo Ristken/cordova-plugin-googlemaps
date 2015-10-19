@@ -1,4 +1,3 @@
-cordova.define("plugin.google.maps.phonegap-googlemaps-plugin", function(require, exports, module) { /* global cordova, plugin, CSSPrimitiveValue */
 var PLUGIN_NAME = 'GoogleMaps';
   var MARKERS = {};
   var KML_LAYERS = {};
@@ -2721,6 +2720,3 @@ var HTML_COLORS = {
   "yellow" : "#ffff00",
   "yellowgreen" : "#9add32"
 };
-
-
-});
