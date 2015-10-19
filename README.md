@@ -1,3 +1,5 @@
+This fork is created to add ability to manage map objects by groups (adding, removing etc operations). It is required to avoid unexpected application crush when working with many map objects.
+
 Cordova GoogleMaps plugin <br>for iOS and Android
 ==========================
 This plugin is a thin wrapper for [Google Maps Android SDK v2](https://developers.google.com/maps/documentation/android/) and [Google Maps SDK for iOS](https://developers.google.com/maps/documentation/ios/).
