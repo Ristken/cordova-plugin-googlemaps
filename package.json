@@ -3,7 +3,7 @@
   "version": "1.3.4",
   "description": "Google Maps native SDK for Android and iOS",
   "cordova": {
-    "id": "plugin.google.maps",
+    "id": "com.dukhanov.plugin.google.maps",
     "platforms": [
       "android",
       "ios"
