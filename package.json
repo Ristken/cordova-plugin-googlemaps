@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/phonegap-googlemaps-plugin/cordova-plugin-googlemaps.git"
+    "url": "https://github.com/dukhanov/cordova-plugin-googlemaps.git#master"
   },
   "keywords": [
     "google",
