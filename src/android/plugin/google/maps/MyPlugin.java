@@ -93,6 +93,10 @@ public class MyPlugin extends CordovaPlugin implements MyPluginInterface  {
   protected void setBoolean(String methodName, String id, Boolean value, final CallbackContext callbackContext) throws JSONException {
     this.setValue(methodName, boolean.class, id, value, callbackContext);
   }
+
+  protected void setBoolean(String methodName, String[] ids, Boolean value, final CallbackContext callbackContext) throws JSONException {
+    this.setValue(methodName, boolean.class, ids, value, callbackContext);
+  }
   
   private void setValue(String methodName, Class<?> methodClass, String id, Object value, final CallbackContext callbackContext) throws JSONException {
     Object object = this.objects.get(id);
@@ -105,6 +109,22 @@ public class MyPlugin extends CordovaPlugin implements MyPluginInterface  {
     }
     this.sendNoResult(callbackContext);
   }
+
+  private void setValue(String methodName, Class<?> methodClass, String[] ids, Object value, final CallbackContext callbackContext) throws JSONException {
+    for (String id : ids){
+      Object object = this.objects.get(id);
+      try {
+        Method method = object.getClass().getDeclaredMethod(methodName, methodClass);
+        method.invoke(object, value);
+      } catch (Exception e) {
+        e.printStackTrace();
+        callbackContext.error(e.getMessage());
+      }
+    }
+
+    this.sendNoResult(callbackContext);
+  }
+
   public void clear() {
     this.objects.clear();
   }

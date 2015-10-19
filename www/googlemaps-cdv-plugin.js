@@ -1,4 +1,4 @@
-/* global cordova, plugin, CSSPrimitiveValue */
+cordova.define("plugin.google.maps.phonegap-googlemaps-plugin", function(require, exports, module) { /* global cordova, plugin, CSSPrimitiveValue */
 var PLUGIN_NAME = 'GoogleMaps';
   var MARKERS = {};
   var KML_LAYERS = {};
@@ -890,7 +890,7 @@ App.prototype.addMarker = function(markerOptions, callback) {
   markerOptions.params = markerOptions.params || {};
   if ("styles" in markerOptions) {
     markerOptions.styles = typeof markerOptions.styles === "object" ? markerOptions.styles : {};
-    
+
     if ("color" in markerOptions.styles) {
       markerOptions.styles.color = HTMLColor2RGBA(markerOptions.styles.color || "#000000");
     }
@@ -898,13 +898,13 @@ App.prototype.addMarker = function(markerOptions, callback) {
   if (markerOptions.icon && isHTMLColorString(markerOptions.icon)) {
     markerOptions.icon = HTMLColor2RGBA(markerOptions.icon);
   }
- 
+
   cordova.exec(function(result) {
     markerOptions.hashCode = result.hashCode;
     var marker = new Marker(self, result.id, markerOptions);
     MARKERS[result.id] = marker;
     OVERLAYS[result.id] = marker;
-    
+
     if (typeof markerOptions.markerClick === "function") {
       marker.on(plugin.google.maps.event.MARKER_CLICK, markerOptions.markerClick);
     }
@@ -917,6 +917,93 @@ App.prototype.addMarker = function(markerOptions, callback) {
   }, self.errorHandler, PLUGIN_NAME, 'exec', ['Marker.createMarker', markerOptions]);
 };
 
+//-------------
+// Add array of markers
+//-------------
+/*
+App.prototype.addMarkers = function(markersOptions, callback) {
+  var self = this;
+  markerOptions.animation = markerOptions.animation || undefined;
+  markerOptions.position = markerOptions.position || {};
+  markerOptions.position.lat = markerOptions.position.lat || 0.0;
+  markerOptions.position.lng = markerOptions.position.lng || 0.0;
+  markerOptions.anchor = markerOptions.anchor || [0.5, 0.5];
+  markerOptions.draggable = markerOptions.draggable || false;
+  markerOptions.icon = markerOptions.icon || undefined;
+  markerOptions.snippet = markerOptions.snippet || undefined;
+  markerOptions.title = markerOptions.title || undefined;
+  markerOptions.visible = markerOptions.visible === undefined ? true : markerOptions.visible;
+  markerOptions.flat = markerOptions.flat || false;
+  markerOptions.rotation = markerOptions.rotation || 0;
+  markerOptions.opacity = parseFloat("" + markerOptions.opacity, 10) || 1;
+  markerOptions.disableAutoPan = markerOptions.disableAutoPan === undefined ? false: markerOptions.disableAutoPan;
+  markerOptions.params = markerOptions.params || {};
+  if ("styles" in markerOptions) {
+    markerOptions.styles = typeof markerOptions.styles === "object" ? markerOptions.styles : {};
+
+    if ("color" in markerOptions.styles) {
+      markerOptions.styles.color = HTMLColor2RGBA(markerOptions.styles.color || "#000000");
+    }
+  }
+  if (markerOptions.icon && isHTMLColorString(markerOptions.icon)) {
+    markerOptions.icon = HTMLColor2RGBA(markerOptions.icon);
+  }
+
+  cordova.exec(function(result) {
+    markerOptions.hashCode = result.hashCode;
+    var marker = new Marker(self, result.id, markerOptions);
+    MARKERS[result.id] = marker;
+    OVERLAYS[result.id] = marker;
+
+    if (typeof markerOptions.markerClick === "function") {
+      marker.on(plugin.google.maps.event.MARKER_CLICK, markerOptions.markerClick);
+    }
+    if (typeof markerOptions.infoClick === "function") {
+      marker.on(plugin.google.maps.event.INFO_CLICK, markerOptions.infoClick);
+    }
+    if (typeof callback === "function") {
+      callback.call(self,  marker, self);
+    }
+  }, self.errorHandler, PLUGIN_NAME, 'exec', ['Marker.createMarker', markerOptions]);
+};
+*/
+
+App.prototype.removeMarkers = function(markers, callback) {
+   var markersIds = [];
+   for (var i = 0; i < markers.length; i++)
+   {
+       var marker = markers[i];
+       markersIds.push(marker.getId());
+
+       marker.set("keepWatching", false);
+       delete MARKERS[this.marker];
+       marker.off();
+   }
+
+   cordova.exec(function() {
+       if (typeof callback === "function") {
+         callback.call(self);
+       }
+     }, this.errorHandler, PLUGIN_NAME, 'exec', ['Marker.removeMarkers', markersIds]);
+};
+
+App.prototype.setMarkersVisibility = function (markers, visible, callback) {
+    var self = this;
+
+    var markersIds = [];
+    for (var i = 0; i < markers.length; i++)
+    {
+        var marker = markers[i];
+        marker.set('visible', visible);
+        markersIds.push(marker.getId());
+    }
+
+    cordova.exec(function () {
+        if (typeof callback === "function") {
+            callback.call(self);
+        }
+    }, this.errorHandler, PLUGIN_NAME, 'exec', ['Marker.setMarkersVisibility', markersIds, visible]);
+};
 
 //-------------
 // Circle
@@ -1291,9 +1378,15 @@ Marker.prototype.setTitle = function(title) {
   this.set('title', title);
   cordova.exec(null, this.errorHandler, PLUGIN_NAME, 'exec', ['Marker.setTitle', this.getId(), title]);
 };
-Marker.prototype.setVisible = function(visible) {
-  this.set('visible', visible);
-  cordova.exec(null, this.errorHandler, PLUGIN_NAME, 'exec', ['Marker.setVisible', this.getId(), visible]);
+Marker.prototype.setVisible = function (visible, callback) {
+    this.set('visible', visible);
+    var self = this;
+    //cordova.exec(null, this.errorHandler, PLUGIN_NAME, 'exec', ['Marker.setVisible', this.getId(), visible]);
+    cordova.exec(function () {
+      if (typeof callback === "function") {
+          callback.call(self);
+      }
+    }, this.errorHandler, PLUGIN_NAME, 'exec', ['Marker.setVisible', this.getId(), visible]);
 };
 Marker.prototype.getTitle = function() {
   return this.get('title');
@@ -2629,3 +2722,5 @@ var HTML_COLORS = {
   "yellowgreen" : "#9add32"
 };
 
+
+});

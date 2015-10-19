@@ -3,6 +3,8 @@ package plugin.google.maps;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import org.apache.cordova.CallbackContext;
@@ -344,11 +346,12 @@ public class PluginMarker extends MyPlugin {
       public void onPostExecute(Object object) {
         callbackContext.success();
       }
+
       @Override
       public void onError(String errorMsg) {
         callbackContext.error(errorMsg);
       }
-      
+
     });
   }
 
@@ -443,6 +446,24 @@ public class PluginMarker extends MyPlugin {
     String id = args.getString(1);
     this.setBoolean("setVisible", id, visible, callbackContext);
   }
+
+  /**
+   * Set visibility for the array of objects
+   * @param args
+   * @param callbackContext
+   * @throws JSONException
+   */
+  protected void setMarkersVisibility(JSONArray args, CallbackContext callbackContext) throws JSONException {
+    boolean visible = args.getBoolean(2);
+    JSONArray ids = args.getJSONArray(1);
+    List<String> arrayList = new ArrayList<String>();
+    for(int i = 0 ; i < ids.length(); i++){
+      arrayList.add(ids.getString(i));
+    }
+
+    this.setBoolean("setVisible", arrayList.toArray(new String[arrayList.size()]), visible, callbackContext);
+  }
+
   /**
    * @param args
    * @param callbackContext
@@ -555,6 +576,32 @@ public class PluginMarker extends MyPlugin {
     String propertyId = "marker_property_" + id;
     this.objects.remove(propertyId);
     this.sendNoResult(callbackContext);
+  }
+
+  /**
+   * Remove the array of markers
+   * @param args
+   * @param callbackContext
+   * @throws JSONException
+   */
+  private void removeMarkers(final JSONArray args, final CallbackContext callbackContext) throws JSONException {
+    JSONArray ids = args.getJSONArray(1);
+    for(int i = 0 ; i < ids.length(); i++){
+      String id = ids.getString(i);
+      Marker marker = this.getMarker(id);
+
+      if (marker == null) {
+        continue;
+      }
+
+      marker.remove();
+      this.objects.remove(id);
+
+      String propertyId = "marker_property_" + id;
+      this.objects.remove(propertyId);
+    }
+
+    callbackContext.success();
   }
   
   /**
