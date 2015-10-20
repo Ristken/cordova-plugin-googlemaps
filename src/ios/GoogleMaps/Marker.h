@@ -12,8 +12,12 @@
 #import "NSData+Base64.h"
 
 @interface Marker : CDVPlugin<MyPlgunProtocol>
+
+typedef void(^ExternalCommandDelegate)(CDVPluginResult* pluginResult, NSString* callbackId);
+
 @property (nonatomic, strong) GoogleMapsViewController* mapCtrl;
 - (void)createMarker:(CDVInvokedUrlCommand*)command;
+- (void)createMarkers:(CDVInvokedUrlCommand *)command;
 - (void)showInfoWindow:(CDVInvokedUrlCommand*)command;
 - (void)hideInfoWindow:(CDVInvokedUrlCommand*)command;
 - (void)isInfoWindowShown:(CDVInvokedUrlCommand*)command;
@@ -25,22 +29,27 @@
 - (void)setDraggable:(CDVInvokedUrlCommand*)command;
 - (void)setDisableAutoPan:(CDVInvokedUrlCommand*)command;
 - (void)setVisible:(CDVInvokedUrlCommand*)command;
+- (void)setMarkersVisibility:(CDVInvokedUrlCommand *)command;
 - (void)setIcon:(CDVInvokedUrlCommand*)command;
 - (void)setIconAnchor:(CDVInvokedUrlCommand*)command;
 - (void)setInfoWindowAnchor:(CDVInvokedUrlCommand*)command;
 - (void)remove:(CDVInvokedUrlCommand*)command;
+- (void)removeMarkers:(CDVInvokedUrlCommand *)command;
 - (void)setPosition:(CDVInvokedUrlCommand*)command;
 - (void)setRotation:(CDVInvokedUrlCommand*)command;
 - (void)setAnimation:(CDVInvokedUrlCommand*)command;
 - (void)downloadImageWithURL:(NSURL *)url completionBlock:(void (^)(BOOL succeeded, UIImage *image))completionBlock;
 
 // Internal use
--(void)setMarkerAnimation_:(NSString *)animation marker:(GMSMarker *)marker pluginResult:(CDVPluginResult *)pluginResult callbackId:(NSString*)callbackId;
--(void)setDropAnimation_:(GMSMarker *)marker pluginResult:(CDVPluginResult *)pluginResult callbackId:(NSString*)callbackId;
--(void)setBounceAnimation_:(GMSMarker *)marker pluginResult:(CDVPluginResult *)pluginResult callbackId:(NSString*)callbackId;
+-(void)setMarkerAnimation_:(NSString *)animation marker:(GMSMarker *)marker pluginResult:(CDVPluginResult *)pluginResult callbackId:(NSString*)callbackId externalCommandDelegate:(ExternalCommandDelegate) externalDelegate;
+-(void)setDropAnimation_:(GMSMarker *)marker pluginResult:(CDVPluginResult *)pluginResult callbackId:(NSString*)callbackId externalCommandDelegate:(ExternalCommandDelegate) externalDelegate;
+-(void)setBounceAnimation_:(GMSMarker *)marker pluginResult:(CDVPluginResult *)pluginResult callbackId:(NSString*)callbackId externalCommandDelegate:(ExternalCommandDelegate) externalDelegate;
 
 -(void)setIcon_:(GMSMarker *)marker iconProperty:(NSDictionary *)iconProperty
    pluginResult:(CDVPluginResult *)pluginResult
-     callbackId:(NSString*)callbackId;
+     callbackId:(NSString*)callbackId
+     externalCommandDelegate:(ExternalCommandDelegate) externalDelegate;
+
+
 
 @end

@@ -686,11 +686,13 @@
  * Clear all markups
  */
 - (void)clear:(CDVInvokedUrlCommand *)command {
-    [self.mapCtrl.overlayManager removeAllObjects];
-    [self.mapCtrl.map clear];
-    
-    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.mapCtrl.overlayManager removeAllObjects];
+        [self.mapCtrl.map clear];
+        
+        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    });
 }
 
 - (void)pluginLayer_pushHtmlElement:(CDVInvokedUrlCommand *)command {
