@@ -1,27 +1,27 @@
 <?xml version='1.0' encoding='utf-8'?>
-<plugin id="plugin.google.maps" version="1.3.4.2" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+<plugin id="plugin.google.maps" version="1.3.4.3" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
     <name>phonegap-googlemaps-plugin</name>
     <js-module name="phonegap-googlemaps-plugin" src="www/googlemaps-cdv-plugin.js">
         <clobbers target="plugin.google.maps" />
     </js-module>
 
-    
+
     <description>Google Maps native SDK for Android and iOS</description>
     <repo>https://github.com/phonegap-googlemaps-plugin/cordova-plugin-googlemaps/</repo>
     <issue>https://github.com/phonegap-googlemaps-plugin/cordova-plugin-googlemaps/issues</issue>
 
     <license>Apache 2.0</license>
-    
+
     <keywords>google,maps,geo</keywords>
-    
+
     <engines>
       <engine name="cordova" version=">=3.5.0" />
     </engines>
-        
+
     <!-- android -->
     <platform name="android">
         <preference name="API_KEY_FOR_ANDROID" />
-        
+
         <info>
              In order to run this plugin, you need to obtain Google Maps API key for Android.
              Visit to https://github.com/wf9a5m75/phonegap-googlemaps-plugin/wiki/Installation
@@ -67,7 +67,7 @@
         <source-file src="src/android/plugin/google/maps/PluginTileProvider.java" target-dir="src/plugin/google/maps" />
         <source-file src="src/android/plugin/google/maps/PluginUtil.java" target-dir="src/plugin/google/maps" />
         <source-file src="src/android/plugin/google/maps/PluginAsyncInterface.java" target-dir="src/plugin/google/maps" />
-        
+
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
             <meta-data
               android:name="com.google.android.maps.v2.API_KEY"
@@ -76,7 +76,7 @@
             <meta-data android:name="com.google.android.gms.version"
                        android:value="@integer/google_play_services_version" />
         </config-file>
-        
+
         <config-file target="AndroidManifest.xml" parent="/manifest">
             <uses-permission android:name="android.permission.INTERNET"/>
             <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -90,11 +90,11 @@
             <uses-feature android:glEsVersion="0x00020000" android:required="true" />
         </config-file>
     </platform>
-    
+
     <!-- ios -->
     <platform name="ios">
         <preference name="API_KEY_FOR_IOS" />
-      
+
         <info>
              In order to run this plugin, you need to obtain Google Maps API key for iOS.
              Visit to https://github.com/wf9a5m75/phonegap-googlemaps-plugin/wiki/Installation
@@ -168,7 +168,7 @@
         <config-file target="*-Info.plist" parent="NSLocationAlwaysUsageDescription">
             <string>Trace your location on the map</string>
         </config-file>
-        
+
         <config-file target="*-Info.plist" parent="CFBundleURLTypes">
           <array>
             <dict>
@@ -183,7 +183,7 @@
             </dict>
           </array>
         </config-file>
-        
+
         <dependency id="com.googlemaps.ios" url="https://github.com/nightstomp/cordova-plugin-googlemaps-sdk" commit="master" />
     </platform>
 </plugin>
