@@ -154,7 +154,7 @@
     NSMutableArray *markers = [NSMutableArray array];
     NSInteger count = markersOptions.count;
     
-    ExternalCommandDelegate blockName = ^(CDVPluginResult* pluginResult, NSString* callbackId){
+    ExternalCommandDelegate exCommand = ^(CDVPluginResult* pluginResult, NSString* callbackId){
         @synchronized(markers) {
             [markers addObject:pluginResult.message];
             if (markers.count == count) {
@@ -167,7 +167,7 @@
     };
     
     for (NSDictionary *markerOptions in markersOptions) {
-        [self createMarker:command markerOptions:markerOptions externalCommandDelegate:blockName];
+        [self createMarker:command markerOptions:markerOptions externalCommandDelegate:exCommand];
     }
 }
 
