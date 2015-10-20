@@ -912,7 +912,7 @@ App.prototype.addMarkers = function(markersOptions, callback) {
       var markerOptions = markersOptions[i];
 
       // get an associated object
-      var markerResult = result.find(function(item){ return item.markerIndex == markerOptions.markerIndex;});
+      var markerResult = result.filter(function(item){ return item.markerIndex == markerOptions.markerIndex;})[0];
 
       // error has occurred while creating a marker
       if(!markerResult.hashCode && markerResult.errorMsg){
