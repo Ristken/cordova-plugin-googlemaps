@@ -122,7 +122,7 @@ public class MyPlugin extends CordovaPlugin implements MyPluginInterface  {
       }
     }
 
-    this.sendNoResult(callbackContext);
+    callbackContext.success();
   }
 
   public void clear() {
