@@ -1426,6 +1426,10 @@ Marker.prototype.isVisible = function() {
   return this.get("visible");
 };
 
+Marker.prototype.getVisible = function() {
+  return this.get("visible");
+};
+
 Marker.prototype.setPosition = function(position) {
   this.set('position', position);
   cordova.exec(null, this.errorHandler, PLUGIN_NAME, 'exec', ['Marker.setPosition', this.getId(), position.lat, position.lng]);
