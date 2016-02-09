@@ -183,7 +183,7 @@
             </dict>
           </array>
         </config-file>
-
-        <dependency id="com.googlemaps.ios" url="https://github.com/dukhanov/cordova-plugin-googlemaps-sdk" commit="master" />
+		
+        <dependency id="com.googlemaps.ios" url="https://bitbucket.org/teamgrigory/cordova-plugin-googlemaps-sdk.git" commit="1.11.1"/>
     </platform>
 </plugin>
