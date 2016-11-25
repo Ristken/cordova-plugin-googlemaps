@@ -293,6 +293,10 @@ App.prototype.getMap = function(div, params) {
     params = params || {};
     params.backgroundColor = HTMLColor2RGBA(params.backgroundColor);
     args.push(params);
+
+    if (params.styles) {
+      params.styles = JSON.stringify(params.styles);
+    }
     
     self.set("div", div);
     args.push(getDivRect(div));
@@ -391,6 +395,9 @@ App.prototype.closeDialog = function() {
 App.prototype.setOptions = function(options) {
   options = options || {};
   options.backgroundColor = HTMLColor2RGBA(options.backgroundColor);
+  if (options.styles) {
+    options.styles = JSON.stringify(options.styles);
+  }
   cordova.exec(null, this.errorHandler, PLUGIN_NAME, 'exec', ['Map.setOptions', options]);
 };
 
