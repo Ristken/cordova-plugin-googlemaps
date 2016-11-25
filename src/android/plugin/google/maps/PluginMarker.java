@@ -594,7 +594,7 @@ public class PluginMarker extends MyPlugin {
   private void setZIndex(final JSONArray args, final CallbackContext callbackContext) throws JSONException {
     float zIndex = (float)args.getDouble(2);
     String id = args.getString(1);
-    this.setFloat("setZIndex", id, zIndex, callbackContext)
+    this.setFloat("setZIndex", id, zIndex, callbackContext);
   }
   
   /**
