@@ -865,7 +865,7 @@
 
             if (animation) {
                 // Do animation, then send the result
-                [self setMarkerAnimation_:animation marker:marker pluginResult:pluginResult callbackId:callbackId];
+                [self setMarkerAnimation_:animation marker:marker pluginResult:pluginResult callbackId:callbackId externalCommandDelegate:externalDelegate];
             } else {
                 // Send the result
                 [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
