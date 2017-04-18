@@ -533,7 +533,7 @@
     [marker setRotation:degrees];
 
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-    [self setMarkerAnimation_:animation marker:marker pluginResult:successResult callbackId:command.callbackId externalCommandDelegate:NULL];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 
@@ -545,11 +545,10 @@
     NSString *animation = [command.arguments objectAtIndex:2];
 
     CDVPluginResult* successResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-    [self setMarkerAnimation_:animation marker:marker pluginResult:successResult callbackId:command.callbackId];
+    [self setMarkerAnimation_:animation marker:marker pluginResult:successResult callbackId:command.callbackId externalCommandDelegate:NULL];
 }
 
--(void)setMarkerAnimation_:(NSString *)animation marker:(GMSMarker *)marker pluginResult:(CDVPluginResult *)pluginResult callbackId:(NSString*)callbackId {
-
+-(void)setMarkerAnimation_:(NSString *)animation marker:(GMSMarker *)marker pluginResult:(CDVPluginResult *)pluginResult callbackId:(NSString*)callbackId externalCommandDelegate:(ExternalCommandDelegate) externalDelegate {
     animation = [animation uppercaseString];
     SWITCH(animation) {
         CASE (@"DROP") {
