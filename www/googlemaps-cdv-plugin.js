@@ -1572,10 +1572,13 @@ Marker.prototype.setTitle = function(title) {
     this.set('title', String(title));
     cordova.exec(null, this.errorHandler, PLUGIN_NAME, 'exec', ['Marker.setTitle', this.getId(), title]);
 };
-Marker.prototype.setVisible = function(visible) {
+Marker.prototype.setVisible = function (visible, callback) {
+    var self = this;
     visible = parseBoolean(visible);
     this.set('visible', visible);
-    cordova.exec(null, this.errorHandler, PLUGIN_NAME, 'exec', ['Marker.setVisible', this.getId(), visible]);
+    cordova.exec(function () {
+      if (typeof callback === "function") callback.call(self);
+    }, this.errorHandler, PLUGIN_NAME, 'exec', ['Marker.setVisible', this.getId(), visible]);
 };
 Marker.prototype.getTitle = function() {
     return this.get('title');
