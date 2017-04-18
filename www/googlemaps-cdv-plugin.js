@@ -665,10 +665,10 @@ App.prototype.setAllGesturesEnabled = function(enabled) {
 /**
  * Sets the preference for whether map toolbar should be enabled or disabled.
  */
-App.prototype.setAllGesturesEnabled = function(enabled) {
+App.prototype.setMapToolbarEnabled = function(enabled) {
     var self = this;
     enabled = parseBoolean(enabled);
-    cordova.exec(null, self.errorHandler, PLUGIN_NAME, 'exec', ['Map.setAllGesturesEnabled', enabled]);
+    cordova.exec(null, self.errorHandler, PLUGIN_NAME, 'exec', ['Map.setMapToolbarEnabled', enabled]);
 };
 
 /**
