@@ -674,4 +674,18 @@ public class PluginMap extends MyPlugin {
     map.setPadding(left, top, right, bottom);
     this.sendNoResult(callbackContext);
   }
+
+  /**
+   * Sets the preference for whether map toolbar should be enabled or disabled.
+   * @param args
+   * @param callbackContext
+   * @throws JSONException
+   */
+  @SuppressWarnings("unused")
+  private void setMapToolbarEnabled(final JSONArray args, final CallbackContext callbackContext) throws JSONException {
+    Boolean isEnabled = args.getBoolean(1);
+    UiSettings uiSettings = map.getUiSettings();
+    uiSettings.setMapToolbarEnabled(isEnabled);
+    this.sendNoResult(callbackContext);
+  }
 }

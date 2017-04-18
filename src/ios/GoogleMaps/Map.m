@@ -253,22 +253,8 @@
       [CATransaction setAnimationDuration: duration];
       
       //[CATransaction setAnimationTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
-      [CATransaction setAnimationTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-      
-      [CATransaction setCompletionBlock:^{
-        if (cameraBounds != nil){
-        
-          GMSCameraPosition *cameraPosition2 = [GMSCameraPosition cameraWithLatitude:cameraBounds.center.latitude
-                                              longitude:cameraBounds.center.longitude
-                                              zoom:self.mapCtrl.map.camera.zoom
-                                              bearing:[[json objectForKey:@"bearing"] doubleValue]
-                                              viewingAngle:[[json objectForKey:@"tilt"] doubleValue]];
-        
-          [self.mapCtrl.map setCamera:cameraPosition2];
-        }
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-      }];
-      
+      [CATransaction setAnimationTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];      
+     
       [self.mapCtrl.map animateToCameraPosition: cameraPosition];
     }[CATransaction commit];
   }
