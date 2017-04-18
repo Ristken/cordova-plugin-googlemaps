@@ -317,41 +317,10 @@ public class PluginMap extends MyPlugin {
       cameraUpdate = CameraUpdateFactory.newCameraPosition(builder.build());
     }
 
-    final LatLngBounds finalCameraBounds = cameraBounds;
-    PluginUtil.MyCallbackContext myCallback = new PluginUtil.MyCallbackContext("moveCamera", webView) {
-      @Override
-      public void onResult(final PluginResult pluginResult) {
-        if (finalCameraBounds != null && ANIMATE_CAMERA_DONE.equals(pluginResult.getStrMessage())) {
-          CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(finalCameraBounds, (int)density);
-          map.moveCamera(cameraUpdate);
-
-
-          Builder builder = CameraPosition.builder();
-          if (cameraPos.has("tilt")) {
-            try {
-              builder.tilt((float) cameraPos.getDouble("tilt"));
-            } catch (JSONException e) {
-              e.printStackTrace();
-            }
-          }
-          if (cameraPos.has("bearing")) {
-            try {
-              builder.bearing((float) cameraPos.getDouble("bearing"));
-            } catch (JSONException e) {
-              e.printStackTrace();
-            }
-          }
-          builder.zoom(map.getCameraPosition().zoom);
-          builder.target(map.getCameraPosition().target);
-          map.moveCamera(CameraUpdateFactory.newCameraPosition(builder.build()));
-        }
-        callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK));
-      }
-    };
     if (action.equals("moveCamera")) {
-      myMoveCamera(cameraUpdate, myCallback);
+      myMoveCamera(cameraUpdate, callbackContext);
     } else {
-      myAnimateCamera(cameraUpdate, durationMS, myCallback);
+      myAnimateCamera(cameraUpdate, durationMS, callbackContext);
     }
   }
 
