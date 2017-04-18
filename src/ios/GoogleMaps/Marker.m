@@ -518,8 +518,9 @@
     }
 
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-    [self setIcon_:marker iconProperty:iconProperty pluginResult:pluginResult callbackId:command.callbackId];
+    [self setIcon_:marker iconProperty:iconProperty pluginResult:pluginResult callbackId:command.callbackId externalCommandDelegate:NULL];
 }
+
 /**
  * set rotation
  */
@@ -532,7 +533,7 @@
     [marker setRotation:degrees];
 
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    [self setMarkerAnimation_:animation marker:marker pluginResult:successResult callbackId:command.callbackId externalCommandDelegate:NULL];
 }
 
 
@@ -552,11 +553,11 @@
     animation = [animation uppercaseString];
     SWITCH(animation) {
         CASE (@"DROP") {
-            [self setDropAnimation_:marker pluginResult:pluginResult callbackId:callbackId];
+            [self setDropAnimation_:marker pluginResult:pluginResult callbackId:callbackId externalCommandDelegate:externalDelegate];
             break;
         }
         CASE (@"BOUNCE") {
-            [self setBounceAnimation_:marker pluginResult:pluginResult callbackId:callbackId];
+            [self setBounceAnimation_:marker pluginResult:pluginResult callbackId:callbackId externalCommandDelegate:externalDelegate];
             break;
         }
         DEFAULT {
@@ -566,6 +567,7 @@
             else {
                 [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
             }
+            break;
         }
     }
 }
@@ -621,11 +623,11 @@
 
 }
 
--(void)setBounceAnimation_:(GMSMarker *)marker pluginResult:(CDVPluginResult *)pluginResult callbackId:(NSString*)callbackId
+/**
+    * Marker drop animation
+    */
+-(void)setBounceAnimation_:(GMSMarker *)marker pluginResult:(CDVPluginResult *)pluginResult callbackId:(NSString*)callbackId  externalCommandDelegate:(ExternalCommandDelegate) externalDelegate
 {
-    /**
-     * Marker drop animation
-     */
     int duration = 1;
 
     CAKeyframeAnimation *longitudeAnim = [CAKeyframeAnimation animationWithKeyPath:@"longitude"];
@@ -666,7 +668,6 @@
             [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
         }
     }];
-
 
     [marker.layer addAnimation:group forKey:@"bounceMarkerAnim"];
 }
@@ -961,14 +962,16 @@
         
         if (animation) {
             // Do animation, then send the result
-            [self setMarkerAnimation_:animation marker:marker pluginResult:pluginResult callbackId:callbackId];
+            [self setMarkerAnimation_:animation marker:marker pluginResult:pluginResult callbackId:callbackId externalCommandDelegate:externalDelegate];
         } else {
             // Send the result
-            [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
+            if (externalDelegate) {
+                externalDelegate(pluginResult, callbackId);
+            } else {
+                [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
+            }
         }
-
     }
-
 }
 
 - (void)downloadImageWithURL:(NSURL *)url completionBlock:(void (^)(BOOL succeeded, UIImage *image))completionBlock

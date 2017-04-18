@@ -47,7 +47,7 @@ typedef void(^ExternalCommandDelegate)(CDVPluginResult* pluginResult, NSString* 
 
 -(void)setIcon_:(GMSMarker *)marker iconProperty:(NSDictionary *)iconProperty
    pluginResult:(CDVPluginResult *)pluginResult
-     callbackId:(NSString*)callbackId;
+     callbackId:(NSString*)callbackId
      externalCommandDelegate:(ExternalCommandDelegate) externalDelegate;
 
 @end
