@@ -20,117 +20,151 @@
 -(void)createMarker:(CDVInvokedUrlCommand *)command
 {
     NSDictionary *json = [command.arguments objectAtIndex:1];
-    NSDictionary *latLng = [json objectForKey:@"position"];
+    [self createMarker:command markerOptions:json externalCommandDelegate:NULL];
+}
+
+-(void)createMarker:(CDVInvokedUrlCommand *)command markerOptions:(NSDictionary *)markerOptions externalCommandDelegate:(ExternalCommandDelegate) externalDelegate
+{
+    NSDictionary *latLng = [markerOptions objectForKey:@"position"];
     float latitude = [[latLng valueForKey:@"lat"] floatValue];
     float longitude = [[latLng valueForKey:@"lng"] floatValue];
-
+    
     CLLocationCoordinate2D position = CLLocationCoordinate2DMake(latitude, longitude);
     GMSMarker *marker = [GMSMarker markerWithPosition:position];
-    if ([json valueForKey:@"title"]) {
-        [marker setTitle: [json valueForKey:@"title"]];
+    if ([[markerOptions valueForKey:@"visible"] boolValue] == true) {
+        marker.map = self.mapCtrl.map;
     }
-    if ([json valueForKey:@"snippet"]) {
-        [marker setSnippet: [json valueForKey:@"snippet"]];
+    if ([markerOptions valueForKey:@"title"]) {
+        [marker setTitle: [markerOptions valueForKey:@"title"]];
     }
-    if ([json valueForKey:@"draggable"]) {
-        [marker setDraggable:[[json valueForKey:@"draggable"] boolValue]];
+    if ([markerOptions valueForKey:@"snippet"]) {
+        [marker setSnippet: [markerOptions valueForKey:@"snippet"]];
     }
-    if ([json valueForKey:@"flat"]) {
-        [marker setFlat:[[json valueForKey:@"flat"] boolValue]];
+    if ([markerOptions valueForKey:@"draggable"]) {
+        [marker setDraggable:[[markerOptions valueForKey:@"draggable"] boolValue]];
     }
-    if ([json valueForKey:@"rotation"]) {
-        CLLocationDegrees degrees = [[json valueForKey:@"rotation"] doubleValue];
+    if ([markerOptions valueForKey:@"flat"]) {
+        [marker setFlat:[[markerOptions valueForKey:@"flat"] boolValue]];
+    }
+    if ([markerOptions valueForKey:@"rotation"]) {
+        CLLocationDegrees degrees = [[markerOptions valueForKey:@"rotation"] doubleValue];
         [marker setRotation:degrees];
     }
-    if ([json valueForKey:@"opacity"]) {
-        [marker setOpacity:[[json valueForKey:@"opacity"] floatValue]];
+    if ([markerOptions valueForKey:@"opacity"]) {
+        [marker setOpacity:[[markerOptions valueForKey:@"opacity"] floatValue]];
     }
-    if ([json valueForKey:@"zIndex"]) {
-        [marker setZIndex:[[json valueForKey:@"zIndex"] intValue]];
+    if ([markerOptions valueForKey:@"zIndex"]) {
+        [marker setZIndex:[[markerOptions valueForKey:@"zIndex"] intValue]];
     }
-
+    
     NSString *id = [NSString stringWithFormat:@"marker_%lu", (unsigned long)marker.hash];
     [self.mapCtrl.overlayManager setObject:marker forKey: id];
-
+    
     // Custom properties
     NSMutableDictionary *properties = [[NSMutableDictionary alloc] init];
     NSString *markerPropertyId = [NSString stringWithFormat:@"marker_property_%lu", (unsigned long)marker.hash];
-
-    if ([json valueForKey:@"styles"]) {
-        NSDictionary *styles = [json valueForKey:@"styles"];
+    
+    if ([markerOptions valueForKey:@"styles"]) {
+        NSDictionary *styles = [markerOptions valueForKey:@"styles"];
         [properties setObject:styles forKey:@"styles"];
     }
-
+    
     BOOL disableAutoPan = NO;
-    if ([json valueForKey:@"disableAutoPan"] != nil) {
-        disableAutoPan = [[json valueForKey:@"disableAutoPan"] boolValue];
+    if ([markerOptions valueForKey:@"disableAutoPan"] != nil) {
+        disableAutoPan = [[markerOptions valueForKey:@"disableAutoPan"] boolValue];
     }
     [properties setObject:[NSNumber numberWithBool:disableAutoPan] forKey:@"disableAutoPan"];
     [self.mapCtrl.overlayManager setObject:properties forKey: markerPropertyId];
-
-
+    
     // Create icon
     NSMutableDictionary *iconProperty = nil;
-    NSObject *icon = [json valueForKey:@"icon"];
+    NSObject *icon = [markerOptions valueForKey:@"icon"];
     if ([icon isKindOfClass:[NSString class]]) {
         iconProperty = [NSMutableDictionary dictionary];
         [iconProperty setObject:icon forKey:@"url"];
-
+        
     } else if ([icon isKindOfClass:[NSDictionary class]]) {
-        iconProperty = [json valueForKey:@"icon"];
-
+        iconProperty = [markerOptions valueForKey:@"icon"];
+        
     } else if ([icon isKindOfClass:[NSArray class]]) {
-        NSArray *rgbColor = [json valueForKey:@"icon"];
+        NSArray *rgbColor = [markerOptions valueForKey:@"icon"];
         iconProperty = [NSMutableDictionary dictionary];
         [iconProperty setObject:[rgbColor parsePluginColor] forKey:@"iconColor"];
     }
-
-    // Visible property
-    if ([[json valueForKey:@"visible"] boolValue] == true) {
-        iconProperty[@"visible"] = @YES;
-    } else {
-        iconProperty[@"visible"] = @NO;
-    }
+    
     // Animation
     NSString *animation = nil;
-    if ([json valueForKey:@"animation"]) {
-        animation = [json valueForKey:@"animation"];
+    if ([markerOptions valueForKey:@"animation"]) {
+        animation = [markerOptions valueForKey:@"animation"];
         if (iconProperty) {
             [iconProperty setObject:animation forKey:@"animation"];
         }
     }
-
+    
     NSMutableDictionary *result = [[NSMutableDictionary alloc] init];
     [result setObject:id forKey:@"id"];
     [result setObject:[NSString stringWithFormat:@"%lu", (unsigned long)marker.hash] forKey:@"hashCode"];
-
+    
+    if ([markerOptions valueForKey:@"markerIndex"]) {
+        [result setObject:[[markerOptions valueForKey:@"markerIndex"] stringValue] forKey:@"markerIndex"];
+    }
+    
     CDVPluginResult* pluginResult = nil;
     if (iconProperty) {
-        if ([json valueForKey:@"infoWindowAnchor"]) {
-            [iconProperty setObject:[json valueForKey:@"infoWindowAnchor"] forKey:@"infoWindowAnchor"];
+        if ([markerOptions valueForKey:@"infoWindowAnchor"]) {
+            [iconProperty setObject:[markerOptions valueForKey:@"infoWindowAnchor"] forKey:@"infoWindowAnchor"];
         }
-
+        
         /*
          // Send an temporally signal at once
          pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_NO_RESULT];
          [pluginResult setKeepCallbackAsBool:YES];
          [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
          */
-
+        
         // Load icon in asynchronise
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:result];
-        [self setIcon_:marker iconProperty:iconProperty pluginResult:pluginResult callbackId:command.callbackId];
-
+        [self setIcon_:marker iconProperty:iconProperty pluginResult:pluginResult callbackId:command.callbackId externalCommandDelegate:externalDelegate];
+        
     } else {
-        if ([[json valueForKey:@"visible"] boolValue] == true) {
-            marker.map = self.mapCtrl.map;
-        }
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:result];
         if (animation) {
-            [self setMarkerAnimation_:animation marker:marker pluginResult:pluginResult callbackId:command.callbackId];
+            [self setMarkerAnimation_:animation marker:marker pluginResult:pluginResult callbackId:command.callbackId externalCommandDelegate:externalDelegate];
         } else {
-            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+            if (externalDelegate) {
+                externalDelegate(pluginResult, command.callbackId);
+            }
+            else {
+                [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+            }
         }
+    }
+}
+
+/**
+ * @param markers options
+ * @return markers keys
+ */
+-(void)createMarkers:(CDVInvokedUrlCommand *)command
+{
+    NSArray *markersOptions = [command.arguments objectAtIndex:1];
+    NSMutableArray *markers = [NSMutableArray array];
+    NSInteger count = markersOptions.count;
+    
+    ExternalCommandDelegate exCommand = ^(CDVPluginResult* pluginResult, NSString* callbackId){
+        @synchronized(markers) {
+            [markers addObject:pluginResult.message];
+            if (markers.count == count) {
+                
+                CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:markers];
+                [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+                
+            }
+        }
+    };
+    
+    for (NSDictionary *markerOptions in markersOptions) {
+        [self createMarker:command markerOptions:markerOptions externalCommandDelegate:exCommand];
     }
 }
 
@@ -250,6 +284,31 @@
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
+
+/**
+ * Remove the specified markers
+ * @params MarkerKeys
+ */
+- (void)removeMarkers:(CDVInvokedUrlCommand *)command
+{
+    NSArray *markerKeys = [command.arguments objectAtIndex:1];
+    
+    for (NSString *markerKey in markerKeys) {
+        GMSMarker *marker = [self.mapCtrl.overlayManager objectForKey:markerKey];
+        NSString *propertyId = [NSString stringWithFormat:@"marker_property_%lu", (unsigned long)marker.hash];
+        marker.map = nil;
+        [self.mapCtrl removeObjectForKey:markerKey];
+        marker = nil;
+        
+        if ([self.mapCtrl.overlayManager objectForKey:propertyId]) {
+            [self.mapCtrl removeObjectForKey:propertyId];
+        }
+    }
+    
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
 /**
  * Set anchor of the marker
  * @params MarkerKey
@@ -285,6 +344,7 @@
     if (marker.icon) {
         anchorX = anchorX / marker.icon.size.width;
         anchorY = anchorY / marker.icon.size.height;
+        [marker setGroundAnchor:CGPointMake(anchorX, anchorY)];
     }
     [marker setInfoWindowAnchor:CGPointMake(anchorX, anchorY)];
 
@@ -372,6 +432,30 @@
         marker.map = nil;
     }
 
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+/**
+ * Set visibility property of multiple markers
+ * @params MarkerKeys
+ * @params isVisible
+ */
+- (void)setMarkersVisibility:(CDVInvokedUrlCommand *)command
+{
+    NSArray *markerKeys = [command.arguments objectAtIndex:1];
+    Boolean isVisible = [[command.arguments objectAtIndex:2] boolValue];
+    
+    for (NSString *markerKey in markerKeys) {
+        GMSMarker *marker = [self.mapCtrl.overlayManager objectForKey:markerKey];
+        
+        if (isVisible) {
+            marker.map = self.mapCtrl.map;
+        } else {
+            marker.map = nil;
+        }
+    }
+    
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
@@ -476,8 +560,12 @@
             break;
         }
         DEFAULT {
-            [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
-            break;
+            if (externalDelegate) {
+                externalDelegate(pluginResult, callbackId);
+            }
+            else {
+                [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
+            }
         }
     }
 }
@@ -488,7 +576,7 @@
  * (memo) http://qiita.com/edo_m18/items/4309d01b67ee42c35b3c
  * (memo) http://stackoverflow.com/questions/12164049/animationdidstop-for-group-animation
  */
--(void)setDropAnimation_:(GMSMarker *)marker pluginResult:(CDVPluginResult *)pluginResult callbackId:(NSString*)callbackId {
+-(void)setDropAnimation_:(GMSMarker *)marker pluginResult:(CDVPluginResult *)pluginResult callbackId:(NSString*)callbackId externalCommandDelegate:(ExternalCommandDelegate) externalDelegate {
     int duration = 1;
 
     CAKeyframeAnimation *longitudeAnim = [CAKeyframeAnimation animationWithKeyPath:@"longitude"];
@@ -522,12 +610,17 @@
     group.animations = @[longitudeAnim, latitudeAnim];
     group.duration = duration;
     [group setCompletionBlock:^(void){
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
+        if (externalDelegate) {
+            externalDelegate(pluginResult, callbackId);
+        } else {
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
+        }
     }];
 
     [marker.layer addAnimation:group forKey:@"dropMarkerAnim"];
 
 }
+
 -(void)setBounceAnimation_:(GMSMarker *)marker pluginResult:(CDVPluginResult *)pluginResult callbackId:(NSString*)callbackId
 {
     /**
@@ -567,8 +660,13 @@
     group.animations = @[longitudeAnim, latitudeAnim];
     group.duration = duration;
     [group setCompletionBlock:^(void){
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
+        if (externalDelegate) {
+            externalDelegate(pluginResult, callbackId);
+        } else {
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
+        }
     }];
+
 
     [marker.layer addAnimation:group forKey:@"bounceMarkerAnim"];
 }
@@ -579,7 +677,8 @@
  */
 -(void)setIcon_:(GMSMarker *)marker iconProperty:(NSDictionary *)iconProperty
    pluginResult:(CDVPluginResult *)pluginResult
-     callbackId:(NSString*)callbackId {
+    callbackId:(NSString*)callbackId 
+    externalCommandDelegate:(ExternalCommandDelegate) externalDelegate {
 
     if (self.mapCtrl.debuggable) {
         NSLog(@"---- setIcon_");
@@ -608,7 +707,7 @@
     __block NSString *animation = animationValue;
 
     if (iconPath) {
-
+        NSError *error;
         NSRange range = [iconPath rangeOfString:@"http"];
         if (range.location != 0) {
             /**
@@ -665,11 +764,16 @@
                         if (self.mapCtrl.debuggable) {
                             NSLog(@"(debug)Can not convert '%@' to device full path.", iconPath);
                         }
-                        [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
+
+                        if (externalDelegate) {
+                            externalDelegate(pluginResult, callbackId);
+                        } else {
+                            [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
+                        }
+
                         return;
                     }
                 }
-
 
                 range = [iconPath rangeOfString:@"://"];
                 if (range.location == NSNotFound) {
@@ -705,7 +809,13 @@
                         if (self.mapCtrl.debuggable) {
                             NSLog(@"(debug)There is no file at '%@'.", iconPath);
                         }
-                        [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
+
+                        if (externalDelegate) {
+                            externalDelegate(pluginResult, callbackId);
+                        } else {
+                            [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
+                        }
+
                         return;
                     }
                 }
@@ -742,10 +852,14 @@
 
             if (animation) {
                 // Do animation, then send the result
-                [self setMarkerAnimation_:animation marker:marker pluginResult:pluginResult callbackId:callbackId];
+                [self setMarkerAnimation_:animation marker:marker pluginResult:pluginResult callbackId:callbackId externalCommandDelegate:externalDelegate];
             } else {
                 // Send the result
-                [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
+                if (externalDelegate) {
+                    externalDelegate(pluginResult, callbackId);
+                } else {
+                    [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
+                }
             }
         } else {
             if (self.mapCtrl.debuggable) {
@@ -778,7 +892,12 @@
                             marker.map = self.mapCtrl.map;
                         }
 
-                        [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
+                        if (externalDelegate) {
+                            externalDelegate(pluginResult, callbackId);
+                        } else {
+                            [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
+                        }
+
                         return;
                     }
 
@@ -797,7 +916,6 @@
                             marker.groundAnchor = CGPointMake(anchorX, anchorY);
                         }
 
-
                         // The `infoWindowAnchor` property
                         if ([iconProperty valueForKey:@"infoWindowAnchor"]) {
                             NSArray *points = [iconProperty valueForKey:@"infoWindowAnchor"];
@@ -811,29 +929,26 @@
                             marker.map = self.mapCtrl.map;
                         }
 
-
                         if (animation) {
                             // Do animation, then send the result
                             if (self.mapCtrl.debuggable) {
                                 NSLog(@"---- do animation animation = %@", animation);
                             }
-                            [self setMarkerAnimation_:animation marker:marker pluginResult:pluginResult callbackId:callbackId];
+                            [self setMarkerAnimation_:animation marker:marker pluginResult:pluginResult callbackId:callbackId externalCommandDelegate:externalDelegate];
                         } else {
                             // Send the result
                             if (self.mapCtrl.debuggable) {
                                 NSLog(@"---- no marker animation");
                             }
-                            [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
+                            if (externalDelegate) {
+                                externalDelegate(pluginResult, callbackId);
+                            } else {
+                                [self.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
+                            }
                         }
-
                     });
-
-
                 }];
-
             });
-
-
         }
     } else if ([iconProperty valueForKey:@"iconColor"]) {
         UIColor *iconColor = [iconProperty valueForKey:@"iconColor"];
