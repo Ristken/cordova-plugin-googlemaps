@@ -2,6 +2,7 @@ package plugin.google.maps;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
@@ -94,7 +95,7 @@ public class MyPlugin extends CordovaPlugin implements MyPluginInterface  {
     this.setValue(methodName, boolean.class, id, value, callbackContext);
   }
 
-  protected void setBoolean(String methodName, String[] ids, Boolean value, final CallbackContext callbackContext) throws JSONException {
+  protected void setBoolean(String methodName, List<String> ids, Boolean value, final CallbackContext callbackContext) throws JSONException {
     this.setValue(methodName, boolean.class, ids, value, callbackContext);
   }
   
@@ -110,7 +111,7 @@ public class MyPlugin extends CordovaPlugin implements MyPluginInterface  {
     this.sendNoResult(callbackContext);
   }
 
-  private void setValue(String methodName, Class<?> methodClass, String[] ids, Object value, final CallbackContext callbackContext) throws JSONException {
+  private void setValue(String methodName, Class<?> methodClass, List<String> ids, Object value, final CallbackContext callbackContext) throws JSONException {
     for (String id : ids){
       Object object = this.objects.get(id);
       try {

@@ -50,6 +50,4 @@ typedef void(^ExternalCommandDelegate)(CDVPluginResult* pluginResult, NSString* 
      callbackId:(NSString*)callbackId
      externalCommandDelegate:(ExternalCommandDelegate) externalDelegate;
 
-
-
 @end
