@@ -1191,7 +1191,7 @@ App.prototype.addCircle = function(circleOptions, callback) {
     circleOptions.center.lat = circleOptions.center.lat || 0.0;
     circleOptions.center.lng = circleOptions.center.lng || 0.0;
     circleOptions.strokeColor = HTMLColor2RGBA(circleOptions.strokeColor || "#FF0000", 0.75);
-    circleOptions.fillColor = HTMLColor2RGBA(circleOptions.fillColor || "#000000", 0.75);
+    circleOptions.fillColor = HTMLColor2RGBA(circleOptions.fillColor || "#000000", polygonOptions.fillOpacity || 0.75);
     circleOptions.strokeWidth = circleOptions.strokeWidth || 10;
     circleOptions.visible = circleOptions.visible === undefined ? true : circleOptions.visible;
     circleOptions.zIndex = circleOptions.zIndex || 3;
@@ -1251,7 +1251,7 @@ App.prototype.addPolygon = function(polygonOptions, callback) {
     });
     polygonOptions.strokeColor = HTMLColor2RGBA(polygonOptions.strokeColor || "#FF000080", 0.75);
     if (polygonOptions.fillColor) {
-        polygonOptions.fillColor = HTMLColor2RGBA(polygonOptions.fillColor, 0.75);
+        polygonOptions.fillColor = HTMLColor2RGBA(polygonOptions.fillColor, polygonOptions.fillOpacity || 0.75);
     }
     polygonOptions.strokeWidth = polygonOptions.strokeWidth || 10;
     polygonOptions.visible = polygonOptions.visible === undefined ? true : polygonOptions.visible;
