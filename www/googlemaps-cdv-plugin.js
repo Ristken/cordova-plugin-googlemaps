@@ -1191,7 +1191,7 @@ App.prototype.addCircle = function(circleOptions, callback) {
     circleOptions.center.lat = circleOptions.center.lat || 0.0;
     circleOptions.center.lng = circleOptions.center.lng || 0.0;
     circleOptions.strokeColor = HTMLColor2RGBA(circleOptions.strokeColor || "#FF0000", 0.75);
-    circleOptions.fillColor = HTMLColor2RGBA(circleOptions.fillColor || "#000000", polygonOptions.fillOpacity || 0.75);
+    circleOptions.fillColor = HTMLColor2RGBA(circleOptions.fillColor || "#000000", circleOptions.fillOpacity || 0.75);
     circleOptions.strokeWidth = circleOptions.strokeWidth || 10;
     circleOptions.visible = circleOptions.visible === undefined ? true : circleOptions.visible;
     circleOptions.zIndex = circleOptions.zIndex || 3;
