@@ -256,6 +256,7 @@
       [CATransaction setAnimationTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];      
      
       [self.mapCtrl.map animateToCameraPosition: cameraPosition];
+      [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }[CATransaction commit];
   }
   
