@@ -146,8 +146,8 @@
             </feature>
         </config-file>
 
-        <header-file src="src/ios/GoogleMaps/Circle.h" />
-        <source-file src="src/ios/GoogleMaps/Circle.m" />
+        <header-file src="src/ios/GoogleMaps/PluginCircle.h" />
+        <source-file src="src/ios/GoogleMaps/PluginCircle.m" />
         <header-file src="src/ios/GoogleMaps/External.h" />
         <source-file src="src/ios/GoogleMaps/External.m" />
         <header-file src="src/ios/GoogleMaps/Geocoder.h" />
@@ -162,13 +162,13 @@
         <source-file src="src/ios/GoogleMaps/KmlOverlay.m" />
         <header-file src="src/ios/GoogleMaps/PluginMap.h" />
         <source-file src="src/ios/GoogleMaps/PluginMap.m" />
-        <header-file src="src/ios/GoogleMaps/Marker.h" />
-        <source-file src="src/ios/GoogleMaps/Marker.m" />
+        <header-file src="src/ios/GoogleMaps/PluginMarker.h" />
+        <source-file src="src/ios/GoogleMaps/PluginMarker.m" />
         <header-file src="src/ios/GoogleMaps/MyPlgunProtocol.h" />
         <header-file src="src/ios/GoogleMaps/PluginUtil.h" />
         <source-file src="src/ios/GoogleMaps/PluginUtil.m" />
-        <header-file src="src/ios/GoogleMaps/Polygon.h" />
-        <source-file src="src/ios/GoogleMaps/Polygon.m" />
+        <header-file src="src/ios/GoogleMaps/PluginPolygon.h" />
+        <source-file src="src/ios/GoogleMaps/PluginPolygon.m" />
         <header-file src="src/ios/GoogleMaps/PluginPolyline.h" />
         <source-file src="src/ios/GoogleMaps/PluginPolyline.m" />
         <header-file src="src/ios/GoogleMaps/TBXML.h" />
