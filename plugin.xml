@@ -124,7 +124,7 @@
                 <param name="ios-package" value="Map" />
             </feature>
             <feature name="Circle">
-                <param name="ios-package" value="Circle" />
+                <param name="ios-package" value="PluginCircle" />
             </feature>
             <feature name="Geocoder">
                 <param name="ios-package" value="Geocoder" />
@@ -136,10 +136,10 @@
                 <param name="ios-package" value="KmlOverlay" />
             </feature>
             <feature name="Marker">
-                <param name="ios-package" value="Marker" />
+                <param name="ios-package" value="PluginMarker" />
             </feature>
             <feature name="Polygon">
-                <param name="ios-package" value="Polygon" />
+                <param name="ios-package" value="PluginPolygon" />
             </feature>
             <feature name="Polyline">
                 <param name="ios-package" value="PluginPolyline" />

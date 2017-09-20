@@ -1,14 +1,14 @@
 //
-//  Polygon.m
+//  PluginPolygon.m
 //  SimpleMap
 //
 //  Created by masashi on 11/13/13.
 //
 //
 
-#import "Polygon.h"
+#import "PluginPolygon.h"
 
-@implementation Polygon
+@implementation PluginPolygon
 
 -(void)setGoogleMapsViewController:(GoogleMapsViewController *)viewCtrl
 {
