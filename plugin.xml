@@ -117,11 +117,8 @@
             <feature name="External">
                 <param name="ios-package" value="External" />
             </feature>
-            <feature name="Geocoder">
-                <param name="ios-package" value="Geocoder" />
-            </feature>
             <feature name="Map">
-                <param name="ios-package" value="Map" />
+                <param name="ios-package" value="PluginMap" />
             </feature>
             <feature name="Circle">
                 <param name="ios-package" value="PluginCircle" />
@@ -163,8 +160,8 @@
         <source-file src="src/ios/GoogleMaps/GroundOverlay.m" />
         <header-file src="src/ios/GoogleMaps/KmlOverlay.h" />
         <source-file src="src/ios/GoogleMaps/KmlOverlay.m" />
-        <header-file src="src/ios/GoogleMaps/Map.h" />
-        <source-file src="src/ios/GoogleMaps/Map.m" />
+        <header-file src="src/ios/GoogleMaps/PluginMap.h" />
+        <source-file src="src/ios/GoogleMaps/PluginMap.m" />
         <header-file src="src/ios/GoogleMaps/Marker.h" />
         <source-file src="src/ios/GoogleMaps/Marker.m" />
         <header-file src="src/ios/GoogleMaps/MyPlgunProtocol.h" />
