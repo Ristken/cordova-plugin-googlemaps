@@ -1,5 +1,5 @@
 //
-//  GroundOverlay.h
+//  PluginGroundOverlay.h
 //  SimpleMap
 //
 //  Created by Katsumata Masashi on 12/4/13.
@@ -10,7 +10,7 @@
 #import "MyPlgunProtocol.h"
 #import "PluginUtil.h"
 
-@interface GroundOverlay : CDVPlugin<MyPlgunProtocol>
+@interface PluginGroundOverlay : CDVPlugin<MyPlgunProtocol>
 
 @property (nonatomic, strong) GoogleMapsViewController* mapCtrl;
 - (void)createGroundOverlay:(CDVInvokedUrlCommand*)command;

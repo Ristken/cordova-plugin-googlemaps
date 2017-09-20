@@ -6,9 +6,9 @@
 //
 //
 
-#import "Map.h"
+#import "PluginMap.h"
 
-@implementation Map
+@implementation PluginMap
 
 
 -(void)setGoogleMapsViewController:(GoogleMapsViewController *)viewCtrl

@@ -1,5 +1,5 @@
 //
-//  Marker.h
+//  PluginMarker.h
 //  SimpleMap
 //
 //  Created by masashi on 11/8/13.
@@ -11,7 +11,7 @@
 #import "PluginUtil.h"
 #import "NSData+Base64.h"
 
-@interface Marker : CDVPlugin<MyPlgunProtocol>
+@interface PluginMarker : CDVPlugin<MyPlgunProtocol>
 
 typedef void(^ExternalCommandDelegate)(CDVPluginResult* pluginResult, NSString* callbackId);
 

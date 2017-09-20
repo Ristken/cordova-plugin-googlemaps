@@ -6,10 +6,10 @@
 //
 //
 
-#import "KmlOverlay.h"
+#import "PluginKmlOverlay.h"
 
 
-@implementation KmlOverlay
+@implementation PluginKmlOverlay
 
 -(void)setGoogleMapsViewController:(GoogleMapsViewController *)viewCtrl
 {
@@ -241,7 +241,7 @@
                     }
                     NSMutableDictionary *cameraOptions = [NSMutableDictionary dictionary];
                     [cameraOptions setObject:defaultViewport forKey:@"target"];
-                    [self _execOtherClassMethod:@"Map" methodName:changeMethod options:cameraOptions callbackId:@"kmlOverlay.viewChange" waitUntilDone:YES];
+                    [self _execOtherClassMethod:@"PluginMap" methodName:changeMethod options:cameraOptions callbackId:@"kmlOverlay.viewChange" waitUntilDone:YES];
 
                 }
 
@@ -258,7 +258,7 @@
                 NSMutableDictionary *options2 = [NSMutableDictionary dictionary];
                 [options2 setObject:linkUrl forKey:@"url"];
                 [options2 setObject:self.kmlId forKey:@"kmlId"];
-                [self _implementToMap:@"KmlOverlay" options:options2 needJSCallback:NO];
+                [self _implementToMap:@"PluginKmlOverlay" options:options2 needJSCallback:NO];
             }
 
 
@@ -424,10 +424,10 @@
             [tagName isEqualToString:@"polygon"]) {
 
             if ([tagName isEqualToString:@"linestring"]) {
-                targetClass = @"Polyline";
+                targetClass = @"PluginPolyline";
                 [*options setObject :[NSNumber numberWithInt:4] forKey : @"zIndex"];
             } else {
-                targetClass = @"Polygon";
+                targetClass = @"PluginPolygon";
                 [*options setObject :[NSNumber numberWithInt:2] forKey : @"zIndex"];
             }
             [*options setObject :[NSNumber numberWithBool:true] forKey : @"visible"];
@@ -440,7 +440,7 @@
         } else if ([tagName isEqualToString:@"styleurl"]) {
             styleUrl = [[childNode objectForKey:@"styleurl"] stringByReplacingOccurrencesOfString:@"#" withString:@""];
         } else if ([tagName isEqualToString:@"point"]) {
-            targetClass = @"Marker";
+            targetClass = @"PluginMarker";
 
             [*options setObject :[NSNumber numberWithBool:true] forKey : @"visible"];
             coordinates = [NSMutableArray array];
@@ -475,8 +475,8 @@
         [self _applyStyleTag:style options:options targetClass:targetClass];
     }
 
-    if ([targetClass isEqualToString:@"Polyline"] ||
-        [targetClass isEqualToString:@"Polygon"]) {
+    if ([targetClass isEqualToString:@"PluginPolyline"] ||
+        [targetClass isEqualToString:@"PluginPolygon"]) {
         //------------------------------
         // Create a polyline or polygon
         //------------------------------
@@ -489,7 +489,7 @@
             [self _implementToMap:targetClass
                           options:[NSDictionary dictionaryWithDictionary:*options] needJSCallback:YES];
         }
-    } else if ([targetClass isEqualToString:@"Marker"]) {
+    } else if ([targetClass isEqualToString:@"PluginMarker"]) {
         //-----------------
         // Create a marker
         //-----------------
@@ -526,7 +526,7 @@
         children = [style objectForKey:@"children"];
         tagName1 = [style objectForKey:@"_tag"];
 
-        if ([targetClass isEqualToString:@"Polygon"]) {
+        if ([targetClass isEqualToString:@"PluginPolygon"]) {
             if([tagName1 isEqualToString:@"polystyle"]) {
                 prefix = @"fill";
             } else if([tagName1 isEqualToString:@"linestyle"]) {
@@ -559,7 +559,7 @@
                     }
                 }
             }
-        } else if ([targetClass isEqualToString:@"Marker"]) {
+        } else if ([targetClass isEqualToString:@"PluginMarker"]) {
             if ([tagName1 isEqualToString:@"href"]) {
                 [*options setObject :[style objectForKey:tagName1] forKey : @"icon"];
             }

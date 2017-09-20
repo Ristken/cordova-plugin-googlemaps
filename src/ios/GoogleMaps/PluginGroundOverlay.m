@@ -1,14 +1,14 @@
 //
-//  GroundOverlay.m
+//  PluginGroundOverlay.m
 //  SimpleMap
 //
 //  Created by Katsumata Masashi on 12/4/13.
 //
 //
 
-#import "GroundOverlay.h"
+#import "PluginGroundOverlay.h"
 
-@implementation GroundOverlay
+@implementation PluginGroundOverlay
 
 -(void)setGoogleMapsViewController:(GoogleMapsViewController *)viewCtrl
 {

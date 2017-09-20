@@ -1,5 +1,5 @@
 //
-//  Geocoder.h
+//  PluginGeocoder.h
 //  SimpleMap
 //
 //  Created by Katsumata Masashi on 12/29/13.
@@ -10,7 +10,7 @@
 #import "PluginUtil.h"
 #import <CoreLocation/CoreLocation.h>
 
-@interface Geocoder : CDVPlugin
+@interface PluginGeocoder : CDVPlugin
 
 @property (nonatomic, strong) CLGeocoder *geocoder;
 @property (nonatomic, strong) GMSGeocoder *reverseGeocoder;

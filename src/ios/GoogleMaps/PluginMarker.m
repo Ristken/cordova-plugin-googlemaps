@@ -1,13 +1,14 @@
 //
-//  Marker.m
+//  PluginMarker.m
 //  SimpleMap
 //
 //  Created by masashi on 11/8/13.
 //
 //
 
-#import "Marker.h"
-@implementation Marker
+#import "PluginMarker.h"
+
+@implementation PluginMarker
 -(void)setGoogleMapsViewController:(GoogleMapsViewController *)viewCtrl
 {
     self.mapCtrl = viewCtrl;

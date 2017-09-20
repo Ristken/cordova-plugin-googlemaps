@@ -1,14 +1,14 @@
 //
-//  TileOverlay.m
+//  PluginTileOverlay.m
 //  SimpleMap
 //
 //  Created by Masashi Katsumata on 11/19/13.
 //
 //
 
-#import "TileOverlay.h"
+#import "PluginTileOverlay.h"
 
-@implementation TileOverlay
+@implementation PluginTileOverlay
 
 -(void)setGoogleMapsViewController:(GoogleMapsViewController *)viewCtrl
 {

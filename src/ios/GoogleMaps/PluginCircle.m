@@ -6,9 +6,9 @@
 //
 //
 
-#import "Circle.h"
+#import "PluginCircle.h"
 
-@implementation Circle
+@implementation PluginCircle
 
 -(void)setGoogleMapsViewController:(GoogleMapsViewController *)viewCtrl
 {

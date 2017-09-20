@@ -1,5 +1,5 @@
 //
-//  GroundOverlay.h
+//  PluginKmlOverlay.h
 //  SimpleMap
 //
 //  Created by Katsumata Masashi on 12/4/13.
@@ -12,7 +12,7 @@
 #import "TBXML.h"
 #import "MyPlgunProtocol.h"
 
-@interface KmlOverlay : CDVPlugin<MyPlgunProtocol>
+@interface PluginKmlOverlay : CDVPlugin<MyPlgunProtocol>
 
 @property (nonatomic, strong) GoogleMapsViewController* mapCtrl;
 @property (nonatomic, strong) NSString* kmlId;

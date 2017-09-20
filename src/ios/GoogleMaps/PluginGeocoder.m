@@ -1,14 +1,14 @@
 //
-//  Geocoder.m
+//  PluginGeocoder.m
 //  SimpleMap
 //
 //  Created by Katsumata Masashi on 12/29/13.
 //
 //
 
-#import "Geocoder.h"
+#import "PluginGeocoder.h"
 
-@implementation Geocoder
+@implementation PluginGeocoder
 
 - (void)pluginInitialize
 {
