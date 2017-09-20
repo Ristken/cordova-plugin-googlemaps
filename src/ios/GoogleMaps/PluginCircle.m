@@ -1,14 +1,14 @@
 //
-//  Circle.m
+//  PluginCircle.m
 //  SimpleMap
 //
 //  Created by masashi on 11/8/13.
 //
 //
 
-#import "Circle.h"
+#import "PluginCircle.h"
 
-@implementation Circle
+@implementation PluginCircle
 
 -(void)setGoogleMapsViewController:(GoogleMapsViewController *)viewCtrl
 {

@@ -1,14 +1,14 @@
 //
-//  Map.m
+//  PluginMap.m
 //  SimpleMap
 //
 //  Created by masashi on 11/8/13.
 //
 //
 
-#import "Map.h"
+#import "PluginMap.h"
 
-@implementation Map
+@implementation PluginMap
 
 
 -(void)setGoogleMapsViewController:(GoogleMapsViewController *)viewCtrl

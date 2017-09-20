@@ -1,5 +1,5 @@
 //
-//  Circle.h
+//  PluginCircle.h
 //  SimpleMap
 //
 //  Created by masashi on 11/8/13.
@@ -9,7 +9,7 @@
 #import "GoogleMaps.h"
 #import "MyPlgunProtocol.h"
 
-@interface Circle : CDVPlugin<MyPlgunProtocol>
+@interface PluginCircle : CDVPlugin<MyPlgunProtocol>
 @property (nonatomic, strong) GoogleMapsViewController* mapCtrl;
 - (void)createCircle:(CDVInvokedUrlCommand*)command;
 - (void)setCenter:(CDVInvokedUrlCommand*)command;

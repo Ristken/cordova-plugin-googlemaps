@@ -1,5 +1,5 @@
 //
-//  Map.h
+//  PluginMap.h
 //  SimpleMap
 //
 //  Created by masashi on 11/8/13.
@@ -11,7 +11,7 @@
 //#import "NSData-Base64/NSData+Base64.h"
 #import "NSData+Base64.h"
 
-@interface Map : CDVPlugin<MyPlgunProtocol>
+@interface PluginMap : CDVPlugin<MyPlgunProtocol>
 @property (nonatomic, strong) GoogleMapsViewController* mapCtrl;
 - (void)setTilt:(CDVInvokedUrlCommand*)command;
 - (void)setCenter:(CDVInvokedUrlCommand*)command;

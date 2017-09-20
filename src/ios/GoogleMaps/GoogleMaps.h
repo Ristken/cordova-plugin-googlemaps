@@ -9,7 +9,7 @@
 #import <Cordova/CDV.h>
 #import <GoogleMaps/GoogleMaps.h>
 #import "GoogleMapsViewController.h"
-#import "Map.h"
+#import "PluginMap.h"
 #import "PluginUtil.h"
 #import "MyPluginLayer.h"
 #import "MyReachability.h"

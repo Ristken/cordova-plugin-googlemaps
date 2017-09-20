@@ -1,14 +1,14 @@
 //
-//  Polyline.m
+//  PluginPolyline.m
 //  SimpleMap
 //
 //  Created by masashi on 11/14/13.
 //
 //
 
-#import "Polyline.h"
+#import "PluginPolyline.h"
 
-@implementation Polyline
+@implementation PluginPolyline
 
 -(void)setGoogleMapsViewController:(GoogleMapsViewController *)viewCtrl
 {
