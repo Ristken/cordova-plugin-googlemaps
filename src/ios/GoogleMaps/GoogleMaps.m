@@ -183,9 +183,9 @@
 
         // Create an instance of Map Class
 #if CORDOVA_VERSION_MIN_REQUIRED >= __CORDOVA_4_0_0
-        Map *mapClass = [(CDVViewController*)self.viewController getCommandInstance:@"Map"];
+        PluginMap *mapClass = [(CDVViewController*)self.viewController getCommandInstance:@"Map"];
 #else
-        Map *mapClass = [[NSClassFromString(@"Map")alloc] initWithWebView:self.webView];
+        PluginMap *mapClass = [[NSClassFromString(@"Map")alloc] initWithWebView:self.webView];
 #endif
         mapClass.commandDelegate = self.commandDelegate;
         [mapClass setGoogleMapsViewController:self.mapCtrl];
