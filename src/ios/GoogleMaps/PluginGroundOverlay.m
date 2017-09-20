@@ -45,7 +45,7 @@
         layer.zIndex = [[json valueForKey:@"zIndex"] floatValue];
     }
 
-    __block GroundOverlay *self_ = self;
+    __block PluginGroundOverlay *self_ = self;
     MYCompletionHandler callback = ^(NSError *error) {
 
         if ([json valueForKey:@"opacity"]) {
@@ -199,7 +199,7 @@
 
     NSString *urlStr = [command.arguments objectAtIndex:2];
     if (urlStr) {
-        __block GroundOverlay *self_ = self;
+        __block PluginGroundOverlay *self_ = self;
         [self _setImage:layer urlStr:urlStr completionHandler:^(NSError *error) {
             CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
             [self_.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
