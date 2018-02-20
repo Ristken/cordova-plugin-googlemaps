@@ -19,7 +19,7 @@ public class AsyncLicenseInfo extends AsyncTask<Void, Void, AlertDialog.Builder>
   }
   @Override
   protected AlertDialog.Builder doInBackground(Void... arg0) {
-    String licenseInfo = GooglePlayServicesUtil.getOpenSourceSoftwareLicenseInfo(mActivity);
+    String licenseInfo = ""; //GooglePlayServicesUtil.getOpenSourceSoftwareLicenseInfo(mActivity);
     
     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mActivity);
     
